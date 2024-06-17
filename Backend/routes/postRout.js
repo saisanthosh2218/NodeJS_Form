@@ -30,7 +30,6 @@ router.post("/login", async (req, res) => {
 
     if (user) {
       if (user.password === password) {
-        // Directly compare plain text passwords
         res.status(200).json({ message: "login successful" });
       } else {
         res.status(400).json({ message: "password wrong" });
