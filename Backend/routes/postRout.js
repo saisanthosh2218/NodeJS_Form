@@ -13,9 +13,11 @@ router.post("/store", async (req, res) => {
 
   try {
     if (response) {
-      res.status(200).json({ message: "Successfully stored" });
+      res.status(200).json({ message: "SignUp Successfull" });
     } else {
-      res.status(400).json({ message: "Data is not stored" });
+      res
+        .status(400)
+        .json({ message: "SignUp Failed Please Check Your Credentials" });
     }
   } catch (error) {
     console.log(error);
@@ -30,12 +32,14 @@ router.post("/login", async (req, res) => {
 
     if (user) {
       if (user.password === password) {
-        res.status(200).json({ message: "login successful" });
+        res.status(200).json({ Message: "Login Successful", redirect: true });
       } else {
-        res.status(400).json({ message: "password wrong" });
+        res.status(400).json({ Message: "Incorrect Password" });
       }
     } else {
-      res.status(400).json({ message: "Cannot find email" });
+      res.status(400).json({
+        Message: "Unable To Find User. Please Check Your Credentials",
+      });
     }
   } catch (error) {
     console.log(error);
@@ -54,6 +58,42 @@ router.get("/users", async (req, res) => {
     }
   } catch (error) {
     console.log("error");
+  }
+});
+
+router.delete("/users/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const personfound = await Person.findByIdAndDelete(id);
+
+  console.log(personfound);
+  try {
+    if (!personfound) {
+      res.status(400).json({ message: "Cannot found the person" });
+    } else {
+      res.status(200).json({ message: "person deleted successfully" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.put("/user/:id", async (req, res) => {
+  const ver = req.params.id;
+  const newContent = req.body;
+
+  console.log(ver);
+
+  const personChange = await Person.findByIdAndUpdate(ver, newContent);
+  console.log(personChange);
+  try {
+    if (personChange) {
+      res.status(200).json({ message: "Person data has changed" });
+    } else {
+      res.status(400).json({ message: "Cannot find the person" });
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 

@@ -1,6 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
   const loginBtn = document.getElementById("login");
   const signBtn = document.getElementById("sign");
+  const icon = document.querySelector("#basic-addon1");
+  const passwordInput = document.querySelector("#password");
+  const lock = document.querySelector("#lock");
+
+  icon.addEventListener("click", function () {
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      lock.classList.remove("fa-lock");
+
+      lock.classList.add("fa-unlock-alt");
+    } else {
+      passwordInput.type = "password";
+      lock.classList.add("fa-lock");
+
+      lock.classList.remove("fa fa-unlock-alt");
+    }
+  });
 
   if (loginBtn) {
     loginBtn.addEventListener("click", handleButtonClick);
@@ -97,19 +114,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
           const result = await response.json();
 
-          if (result) {
-            console.log(result.message);
+          if (response.ok && result.redirect) {
+            loginErr.innerHTML = result.Message;
+            window.location.assign("./ProfileManage.html");
           } else {
-            console.log(result.message);
+            loginErr.innerHTML = result.Message;
           }
-
-          // if (response.ok) {
-          //   const result = await response.json();
-          //   console.log("post successful: ", result);
-          // } else {
-          //   const errorData = await response.json();
-          //   console.error(errorData.message);
-          // }
         } catch (error) {
           console.error("Fetch error: ", error);
         }
