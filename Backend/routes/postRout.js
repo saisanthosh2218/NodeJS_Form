@@ -3,12 +3,14 @@ const router = express.Router();
 const Person = require("../models/personmodel");
 
 router.post("/store", async (req, res) => {
-  const { username, email, password } = req.body;
+  const { FirstName, LastName, username, email, password } = req.body;
 
   const response = await Person.create({
     username: username,
     email: email,
     password: password,
+    FirstName: FirstName,
+    LastName: LastName,
   });
 
   try {
@@ -32,7 +34,11 @@ router.post("/login", async (req, res) => {
 
     if (user) {
       if (user.password === password) {
-        res.status(200).json({ Message: "Login Successful", redirect: true });
+        res.status(200).json({
+          data: user,
+          Message: "Login Successful",
+          redirect: true,
+        });
       } else {
         res.status(400).json({ Message: "Incorrect Password" });
       }
@@ -44,6 +50,27 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.patch("/change", async (req, res) => {
+  const { username } = req.body;
+  const data = req.body;
+  // const userd = req.params.id;
+
+  try {
+    const user = await Person.findOne({ username });
+    if (user) {
+      const updated = await Person.findOneAndUpdate({ username }, data, {
+        new: true,
+        runValidators: true,
+      });
+      res.status(200).json({ log: "user updated" });
+    } else {
+      console.log("error");
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 

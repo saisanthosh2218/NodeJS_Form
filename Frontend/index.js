@@ -4,6 +4,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const icon = document.querySelector("#basic-addon1");
   const passwordInput = document.querySelector("#password");
   const lock = document.querySelector("#lock");
+  const fileInput = document.getElementById("file");
+  const penIcon = document.querySelector(".pen-icon");
+
+  // penIcon.addEventListener("click", () => {
+  //   fileInput.click();
+  // });
+
+  // fileInput.addEventListener("change", (event) => {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+
+  //   reader.onload = (e) => {
+  //     profileImage.src = e.target.result;
+  //   };
+
+  //   reader.readAsDataURL(file);
+  // });
 
   icon.addEventListener("click", function () {
     if (passwordInput.type === "password") {
@@ -41,6 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = document.querySelector("#email").value;
     const password = document.querySelector("#password").value;
     const username = document.querySelector("#username").value;
+    const FirstName = document.querySelector("#fname").value;
+    const LastName = document.querySelector("#lname").value;
     const errorMsg = document.getElementById("error-msg");
     errorMsg.innerHTML = "";
 
@@ -58,6 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
         username: username,
         email: email,
         password: password,
+        FirstName: FirstName,
+        LastName: LastName,
       };
 
       async function fetchData() {
@@ -114,8 +135,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
           const result = await response.json();
 
+          if (!response.ok) {
+            throw new Error("Invalid Credentials");
+          }
+
           if (response.ok && result.redirect) {
-            loginErr.innerHTML = result.Message;
+            localStorage.setItem("user", JSON.stringify(result.data));
+
             window.location.assign("./ProfileManage.html");
           } else {
             loginErr.innerHTML = result.Message;

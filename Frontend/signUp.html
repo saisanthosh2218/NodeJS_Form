@@ -29,6 +29,31 @@
     <div class="heading"><h2>Welcome to our Web App</h2></div>
     <div id="container">
       <form>
+        <h4>SignUp</h4>
+
+        <div class="signup_img">
+          <img
+            id="profileImage"
+            src="./asset/download.jpeg"
+            width="100px"
+            height="100px"
+            alt=""
+          />
+          <span class="pen-icon">
+            <i class="fa-solid fa-pen"></i>
+            <input type="file" id="file" accept="image/*" />
+          </span>
+        </div>
+        <div class="d-flex gap-2 mb-2">
+          <div>
+            <label for="fname" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="fname" />
+          </div>
+          <div>
+            <label for="lname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lname" />
+          </div>
+        </div>
         <div class="mb-3">
           <label for="email" class="form-label">Email address</label>
           <input
@@ -63,7 +88,6 @@
       </p>
       <p id="error-msg"></p>
     </div>
-
 
     <script src="./index.js"></script>
   </body>

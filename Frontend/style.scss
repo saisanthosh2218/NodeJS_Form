@@ -1,5 +1,5 @@
 body {
-  overflow-y: hidden;
+  // overflow-y: hidden;
 }
 @mixin containerStyles() {
   text-align: center;
@@ -7,8 +7,8 @@ body {
   background-color: #000;
   color: white;
   padding: 12px;
-  width: 15%;
-  height: 250px;
+  width: 400px;
+  height: fit-content;
   margin: auto;
 }
 
@@ -24,9 +24,6 @@ body {
 #contain {
   @include containerStyles();
   margin-top: 28px;
-  input {
-    margin-bottom: 5px;
-  }
 }
 
 .profile_form {
@@ -64,10 +61,38 @@ form div {
 .nav_img {
   width: 35px;
   height: 35px;
+  img {
+    border-radius: 50%;
+    object-fit: cover;
+  }
 }
-.nav_img img {
-  border-radius: 50%;
-  object-fit: cover;
-  // background-position: center;
-  // background-size: c;
+
+.signup_img {
+  width: 50px;
+  height: 50px;
+  margin: 0px 145px;
+  margin-bottom: 40px;
+  position: relative;
+
+  img {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  span {
+    position: absolute;
+    top: 76px;
+    left: 78px;
+    cursor: pointer;
+  }
+  input {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 5px;
+    height: 3px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+  }
 }

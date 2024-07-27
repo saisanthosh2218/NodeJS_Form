@@ -1,15 +1,12 @@
-body {
-  overflow-y: hidden;
-}
-
 #container {
   text-align: center;
   border-radius: 8px;
   background-color: #000;
   color: white;
   padding: 12px;
-  width: 15%;
-  height: 250px;
+  width: 400px;
+  height: -moz-fit-content;
+  height: fit-content;
   margin: auto;
 }
 
@@ -24,13 +21,11 @@ body {
   background-color: #000;
   color: white;
   padding: 12px;
-  width: 15%;
-  height: 250px;
+  width: 400px;
+  height: -moz-fit-content;
+  height: fit-content;
   margin: auto;
   margin-top: 28px;
-}
-#contain input {
-  margin-bottom: 5px;
 }
 
 .profile_form {
@@ -71,9 +66,37 @@ form div {
   width: 35px;
   height: 35px;
 }
-
 .nav_img img {
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.signup_img {
+  width: 50px;
+  height: 50px;
+  margin: 0px 145px;
+  margin-bottom: 40px;
+  position: relative;
+}
+.signup_img img {
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.signup_img span {
+  position: absolute;
+  top: 76px;
+  left: 78px;
+  cursor: pointer;
+}
+.signup_img input {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 5px;
+  height: 3px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
 }/*# sourceMappingURL=style.css.map */
