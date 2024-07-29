@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (response.ok) {
             const result = await response.json();
+            window.location.assign("./login.html");
             console.log("data posted: ", result);
           } else {
             const errorData = await response.json();

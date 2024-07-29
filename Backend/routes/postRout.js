@@ -53,8 +53,8 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.patch("/change", async (req, res) => {
-  const { username } = req.body;
+router.patch("/change/:username", async (req, res) => {
+  const { username } = req.params;
   const data = req.body;
   // const userd = req.params.id;
 
@@ -65,9 +65,9 @@ router.patch("/change", async (req, res) => {
         new: true,
         runValidators: true,
       });
-      res.status(200).json({ log: "user updated" });
+      res.status(200).json({ updated });
     } else {
-      console.log("error");
+      console.log("user not found in database");
     }
   } catch (error) {
     console.log(error);
@@ -88,17 +88,20 @@ router.get("/users", async (req, res) => {
   }
 });
 
-router.delete("/users/:id", async (req, res) => {
-  const id = req.params.id;
+router.delete("/delete/:username", async (req, res) => {
+  const { username } = req.params;
+  const data = req.body;
 
-  const personfound = await Person.findByIdAndDelete(id);
+  const personfound = await Person.findOne({ username });
 
-  console.log(personfound);
   try {
-    if (!personfound) {
-      res.status(400).json({ message: "Cannot found the person" });
+    if (personfound) {
+      const deletedUser = await Person.findOneAndDelete({ username }, data);
+      res
+        .status(200)
+        .json({ message: "person deleted successfully", redirect: true });
     } else {
-      res.status(200).json({ message: "person deleted successfully" });
+      res.status(400).json({ message: "person deleted unsuccessfully" });
     }
   } catch (error) {
     console.log(error);
