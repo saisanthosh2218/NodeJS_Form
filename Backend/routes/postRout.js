@@ -1,8 +1,29 @@
 const express = require("express");
+const app = express();
 const router = express.Router();
 const Person = require("../models/personmodel");
+const multer = require("multer");
+const path = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(express.json({ limit: "50mb" })); // Adjust the limit as needed
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-router.post("/store", async (req, res) => {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    return cb(null, "./uploads");
+  },
+
+  filename: (req, file, cb) => {
+    return cb(null, `${Date.now()} - ${file.originalname}`);
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+});
+
+router.post("/store", upload.single("profileImage"), async (req, res) => {
   const { FirstName, LastName, username, email, password } = req.body;
 
   const response = await Person.create({
@@ -15,7 +36,7 @@ router.post("/store", async (req, res) => {
 
   try {
     if (response) {
-      res.status(200).json({ message: "SignUp Successfull" });
+      res.status(200).json({ message: "SignUp Successfull", redirect: true });
     } else {
       res
         .status(400)

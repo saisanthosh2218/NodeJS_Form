@@ -7,6 +7,7 @@ const db = require("./mongoDB");
 const Person = require("./models/personmodel");
 app.use(cors());
 app.use(express.json());
+
 const port = 5885;
 
 const getRoute = require("./routes/postRout");

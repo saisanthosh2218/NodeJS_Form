@@ -12,6 +12,8 @@ const personSchema = new mongoose.Schema({
   },
 
   password: { type: String },
+
+  file: { type: String },
 });
 
 const Person = mongoose.model("signupusers", personSchema);

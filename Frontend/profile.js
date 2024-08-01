@@ -26,19 +26,17 @@ document.addEventListener("DOMContentLoaded", function () {
       lastName,
       email,
     };
+    const profileUrl = "http://localhost:5885/change/";
 
     async function updateUser() {
       try {
-        const response = await fetch(
-          `http://localhost:5885/change/${username}`,
-          {
-            method: "PATCH",
-            body: JSON.stringify(updatedData),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${profileUrl}${username}`, {
+          method: "PATCH",
+          body: JSON.stringify(updatedData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error(`API request failed with status ${response.status}`);

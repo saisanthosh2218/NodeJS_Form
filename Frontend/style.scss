@@ -1,5 +1,5 @@
 body {
-  overflow-y: hidden;
+  // overflow-y: hidden;
 }
 @mixin containerStyles() {
   text-align: center;
@@ -87,10 +87,10 @@ form div {
   }
   input {
     position: absolute;
-    top: 6px;
-    left: 6px;
-    width: 5px;
-    height: 3px;
+    top: 10px;
+    left: 5px;
+    width: 6px;
+    height: 4px;
     border: none;
     border-radius: 25px;
     cursor: pointer;

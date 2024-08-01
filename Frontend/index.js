@@ -53,6 +53,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  document.querySelector("#file").addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    const profileImage = document.querySelector("#profileImage");
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        profileImage.src = e.target.result; // Set the src of the img element to the file's data URL
+      };
+
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  });
+
   function signUp(event) {
     event.preventDefault();
     const email = document.querySelector("#email").value;
@@ -60,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const username = document.querySelector("#username").value;
     const FirstName = document.querySelector("#fname").value;
     const LastName = document.querySelector("#lname").value;
+    const fileInput = document.querySelector("#file");
     const errorMsg = document.getElementById("error-msg");
     errorMsg.innerHTML = "";
 
@@ -73,20 +89,23 @@ document.addEventListener("DOMContentLoaded", function () {
       errorMsg.innerHTML = "Username Cannot be Empty";
       errorMsg.style.color = "red";
     } else {
-      const data = {
-        username: username,
-        email: email,
-        password: password,
-        FirstName: FirstName,
-        LastName: LastName,
-      };
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("FirstName", FirstName);
+      formData.append("LastName", LastName);
+
+      // Add the file to the form data if a file is selected
+      if (fileInput.files.length > 0) {
+        formData.append("profileImage", fileInput.files[0]);
+      }
 
       async function fetchData() {
         try {
           const response = await fetch("http://localhost:5885/store", {
             method: "POST",
-            body: JSON.stringify(data),
-            headers: { "Content-Type": "application/json" },
+            body: formData,
           });
 
           if (response.ok) {
