@@ -4,6 +4,7 @@ const router = express.Router();
 const Person = require("../models/personmodel");
 const multer = require("multer");
 const path = require("path");
+const bcrypt = require("bcrypt");
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.json({ limit: "50mb" })); // Adjust the limit as needed
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -54,15 +55,21 @@ router.post("/login", async (req, res) => {
     const user = await Person.findOne({ email: email });
 
     if (user) {
-      if (user.password === password) {
-        res.status(200).json({
-          data: user,
-          Message: "Login Successful",
-          redirect: true,
-        });
-      } else {
-        res.status(400).json({ Message: "Incorrect Password" });
-      }
+      bcrypt.compare(password, user.password, (err, ressponse) => {
+        if (ressponse) {
+          return res.status(200).json({ message: "correct" });
+        }
+      });
+
+      // if (await user.comparePassword(password)) {
+      //   return res
+      //     .status(200)
+      //     .json({ message: "correct username or password" });
+      // } else {
+      //   return res
+      //     .status(401)
+      //     .json({ message: "Incorrect username or Password" });
+      // }
     } else {
       res.status(400).json({
         Message: "Unable To Find User. Please Check Your Credentials",
