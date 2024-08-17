@@ -116,6 +116,19 @@ router.get("/users", async (req, res) => {
   }
 });
 
+router.post("/password/retrive", async (req, res) => {
+  const { email } = req.body;
+
+  const findPerson = await Person.findOne({ email });
+
+  try {
+    if (findPerson) {
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.delete("/delete/:username", async (req, res) => {
   const { username } = req.params;
   const data = req.body;
