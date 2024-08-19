@@ -167,7 +167,33 @@ router.post("/reset_password/:id/:token", async (req, res) => {
   const { password } = req.body;
 
   try {
-    jwt.verify(token, "jwt_secret_key", (err, decode) => {});
+    jwt.verify(token, "jwt_secret_key", async (err, decode) => {
+      if (err) {
+        return res.status(400).json({ message: "Invalid or expired token." });
+      }
+
+      // console.log(decode);
+
+      // Check if the token's user ID matches the requested ID
+      if (decode._id !== id) {
+        return res
+          .status(400)
+          .json({ message: "Invalid token for this user." });
+      }
+
+      const user = await Person.findById(id);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found." });
+      }
+
+      user.password = password;
+      await user.save();
+
+      res
+        .status(200)
+        .json({ message: "Password has been reset successfully." });
+    });
   } catch (error) {
     console.log(error);
   }
