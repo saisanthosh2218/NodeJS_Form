@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("lastname").value = user.LastName;
     document.getElementById("proemail").value = user.email;
     document.getElementById("Username").value = user.username;
-    document.getElementById("Password").value = user.password; // Note: In practice, you might not want to pre-fill the password field
   } else {
     console.error("No user data found");
   }

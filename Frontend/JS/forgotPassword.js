@@ -1,15 +1,30 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const send = document.querySelector("button");
-  const reset = document.querySelector("#reset");
+  const send = document.getElementById("send");
+  const reset = document.getElementById("reset");
 
-  reset.addEventListener("click", function (event) {
+  if (send) {
+    send.addEventListener("click", handleButtonClick);
+  }
+  if (reset) {
+    reset.addEventListener("click", handleButtonClick);
+  }
+
+  function handleButtonClick(event) {
     event.preventDefault();
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
-    const token = urlParams.get("token");
-    console.log(urlParams);
-    console.log(id, token);
+    if (event.target.id === "send") {
+      forgotPassword(event);
+    } else if (event.target.id === "reset") {
+      resetPassword(event);
+    }
+  }
+
+  function resetPassword(event) {
+    event.preventDefault();
+
+    const pathParts = window.location.search.split("/");
+    const id = pathParts[1];
+    const token = pathParts[2];
 
     const password = document.querySelector("#passn").value;
 
@@ -34,17 +49,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const result = await ressponse.json();
+
+        console.log(result.message);
       } catch (error) {
         console.log(error);
       }
     }
     resetPassword(event);
-  });
+  }
 
-  send.addEventListener("click", function (e) {
-    e.preventDefault();
+  function forgotPassword(event) {
+    event.preventDefault();
 
-    const email = document.getElementById("eadd").value;
+    const email = document.getElementById("emadd").value;
 
     const data = {
       email,
@@ -73,6 +90,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(error);
       }
     }
-    passwordChnage(e);
-  });
+    passwordChnage(event);
+  }
 });
